@@ -1,0 +1,126 @@
+/* Фон всего окна */
+QWidget {
+    background-color: #f4f6f8;
+}
+
+/* Заголовок окна (headeing) */
+QLabel#headeing {
+    color: #202124;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Основные подписи "Логин" и "Пароль" */
+QLabel {
+    color: #3c4043;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Маленький текст "или" */
+QLabel#label {
+    color: #70757a;
+    font-size: 14px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/* Поля ввода */
+QLineEdit {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+/* Кнопка "Войти" */
+QPushButton#pushButton_login {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_login:hover {
+    background-color: #357ae8;
+}
+
+QPushButton#pushButton_login:pressed {
+    background-color: #2a65c7;
+}
+
+/* Кнопка "Зарегистрироваться" */
+QPushButton#pushButton_register {
+    background-color: #34a853;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_register:hover {
+    background-color: #2c8f46;
+}
+
+QPushButton#pushButton_register:pressed {
+    background-color: #246d38;
+}
+
+/* Кнопка "Загрузить фото" */
+QPushButton#pushButton_select_photo {
+    background-color: #fbbc05;
+    color: #202124;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_select_photo:hover {
+    background-color: #e0a800;
+}
+
+QPushButton#pushButton_select_photo:pressed {
+    background-color: #c79100;
+}
+
+/*  Выпадающий список (роль) */
+QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QComboBox:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+/* Выпадающее меню ComboBox */
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    selection-background-color: #eef3fb;
+}
+
+
+

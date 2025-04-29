@@ -1,0 +1,84 @@
+/* Фон всего окна */
+QWidget {
+    background-color: #f4f6f8;
+}
+
+/* Основные подписи */
+QLabel {
+    color: #3c4043;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Поля ввода */
+QLineEdit {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+/* Кнопка "Сохранить изменения" */
+QPushButton#pushButton_update_profile {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_update_profile:hover {
+    background-color: #357ae8;
+}
+
+QPushButton#pushButton_update_profile:pressed {
+    background-color: #2a65c7;
+}
+
+/* Кнопка "Загрузить фото" */
+QPushButton#pushButton_select_photo {
+    background-color: #fbbc05;
+    color: #202124;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_select_photo:hover {
+    background-color: #e0a800;
+}
+
+QPushButton#pushButton_select_photo:pressed {
+    background-color: #c79100;
+}
+
+/* Кнопка "Выйти" */
+QPushButton#pushButton_exit {
+    background-color: #ea4335;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_exit:hover {
+    background-color: #d93025;
+}
+
+QPushButton#pushButton_exit:pressed {
+    background-color: #b1271b;
+}
