@@ -1,0 +1,175 @@
+QMainWindow {
+    background-color: #f5f5f5;
+}
+
+QFrame
+{
+    border: 0px;
+}
+
+QPushButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+QLabel#label_project_name {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+QLabel#label_title_open_tasks {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3498db;
+    padding: 4px 8px;
+    border-bottom: 2px solid #3498db;
+}
+
+QLabel#label_title_progress_tasks {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f1c40f;
+    padding: 4px 8px;
+    border-bottom: 2px solid #f1c40f;
+}
+
+QLabel#label_title_finish_tasks {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2ecc71;
+    padding: 4px 8px;
+    border-bottom: 2px solid #2ecc71;
+}
+
+QLabel#label_title_close_tasks {
+    font-size: 20px;
+    font-weight: bold;
+    color: #95a5a6;
+    padding: 4px 8px;
+    border-bottom: 2px solid #95a5a6;
+}
+
+QPushButton:hover {
+    background-color: #45a049;
+}
+
+QPushButton#pushButton_exit {
+    background-color: #f44336;
+}
+
+QPushButton#pushButton_exit:hover {
+    background-color: #d32f2f;
+}
+
+QPushButton#pushButton_generate_reports,
+QPushButton#pushButton_profile_docs {
+    background-color: #2196F3;
+}
+
+QPushButton#pushButton_generate_reports:hover,
+QPushButton#pushButton_profile_docs:hover {
+    background-color: #1976D2;
+}
+
+QPushButton#pushButton_tasks,
+QPushButton#pushButton_profile {
+    background-color: #607D8B;
+}
+
+QPushButton#pushButton_tasks:hover,
+QPushButton#pushButton_profile:hover {
+    background-color: #455A64;
+}
+
+QPushButton#pushButton_add_open_task,
+QPushButton#pushButton_progress_tasks,
+QPushButton#pushButton_finish_tasks,
+QPushButton#pushButton_close_tasks {
+    background-color: #357ae8;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+}
+
+QPushButton#pushButton_add_open_task:hover,
+QPushButton#pushButton_progress_tasks:hover,
+QPushButton#pushButton_finish_tasks:hover,
+QPushButton#pushButton_close_tasks:hover {
+    background-color: #0033CC;
+}
+
+QPushButton#pushButton_add_open_task:pressed,
+QPushButton#pushButton_progress_tasks:pressed,
+QPushButton#pushButton_finish_tasks:pressed,
+QPushButton#pushButton_close_tasks:pressed {
+    background-color: #0033CC;
+}
+
+QScrollArea {
+    background-color: transparent;
+}
+
+QScrollArea QWidget {
+     background: transparent;
+}
+
+QLineEdit {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+QLabel {
+    color: #3c4043;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+QListWidget {
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    padding: 4px;
+    font-size: 14px;
+    color: #202124;
+}
+
+QListWidget::item {
+    padding: 5px 7px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    font-size: 14px;
+}
+
+QListWidget::item:selected {
+    background-color: #e0f2f1;
+    color: #00695c;
+    font-weight: bold;
+    border: 1px solid #26a69a;
+}
+
+QComboBox {
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+

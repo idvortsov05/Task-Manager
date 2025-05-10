@@ -1,21 +1,21 @@
 from client.http_client.config.config_client import get_config
 from client.http_client.logger.logger_client import get_logger
 from client.http_client.ui.auth.RegisterWindow import RegisterWindow
-from client.http_client.ui.profile.ProfileWindow import ProfileWindow
+from client.http_client.ui.main.MainWindow import MainWindow
 
-from PyQt5.QtWidgets import QDialog, QMessageBox
-from PyQt5 import uic
 import requests
+from PyQt5 import uic
+from PyQt5.QtWidgets import QDialog, QMessageBox
 
 config = get_config("client/http_client/config/config.ini")
 LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
-logger = get_logger("login window", LOGGER_CONFIG_PATH)
+logger = get_logger("client", LOGGER_CONFIG_PATH)
 
 
 class LoginWindow(QDialog):
     def __init__(self):
         super().__init__()
-        self.profile_window = None
+        self.main_window = None
         logger.debug("Login window created")
         uic.loadUi('client/http_client/ui/auth/Login.ui', self)
         logger.debug("Login window ui was loaded")
@@ -44,40 +44,35 @@ class LoginWindow(QDialog):
 
             if response.status_code == 200:
                 token = response.json().get("access_token")
-
-                if not token:
-                    QMessageBox.warning(None, "Ошибка", "Токен для входа не получен!")
-                    return
-
-                headers = {
-                    "Authorization": f"Bearer {token}"
-                }
+                headers = { "Authorization": f"Bearer {token}" }
 
                 user_info_response = requests.get(url_get_current_user, headers=headers)
 
                 if user_info_response.status_code == 200:
-                    user_info = user_info_response.json()
-                    full_name = user_info.get("full_name", "Неизвестный пользователь")
-                    role = user_info.get("role", "Неизвестная роль")
+                    user = user_info_response.json()
+                    full_name = user["full_name"]
+                    role = user["role"]
 
-                    role_to_see = ''
                     if role == "team_lead":
-                        role_to_see = 'Руководитель проекта'
-                    elif role == "developer":
-                        role_to_see = 'Разработчик'
+                        role = 'Руководитель проекта'
+                    else:
+                        role = 'Разработчик'
 
-                    QMessageBox.information(None, "Информация", "Добро пожаловать, " + full_name + '!' +'\n' + "Ваша роль - " + role_to_see)
+                    QMessageBox.information(None, "Информация", "Добро пожаловать, " + full_name + '!' +'\n' + "Ваша роль - " + role)
                     self.accept()
-                    self.profile_window = ProfileWindow(token=token)
-                    self.profile_window.show()
+                    self.close()
+                    self.main_window = MainWindow(token=token)
+                    self.main_window.show()
                 else:
                     QMessageBox.warning(None, "Ошибка", f"Не удалось получить данные пользователя: {user_info_response.text}")
             else:
-                print("Ошибка входа:", response.text)
+                logger.error("Error while logging in")
+
         except Exception as e:
-            print("Ошибка запроса:", e)
+            logger.error(f"Error while logging in: {e}")
 
     def register(self):
+        self.hide()
         register_window = RegisterWindow()
-        if register_window.exec_() == QDialog.Accepted:
-            QMessageBox.information(self, "Регистрация", "Теперь вы можете войти в систему.")
+        register_window.exec_()
+        self.show()

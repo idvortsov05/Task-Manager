@@ -1,35 +1,24 @@
-from typing import Optional
-
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from datetime import timedelta
-
-
-import crud, models, schemas
-from database import get_db
-from auth import (
-    authenticate_user,
-    create_access_token,
-    get_current_user,
-    ACCESS_TOKEN_EXPIRE_MINUTES
-)
-
 from config.config_server import get_config
 from logger.logger_server import get_logger
 
+from database import get_db
+import crud, models, schemas
+from auth import (authenticate_user, create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES)
+
+from typing import Optional
+from datetime import timedelta
+from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 config = get_config("server/http_server/config/config.ini")
-host = config["server"]["host"]
-port = int(config["server"]["port"])
 LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
 logger = get_logger("server", LOGGER_CONFIG_PATH)
-
 
 router = APIRouter()
 
 # ===== Аутентификация =====
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 
 @router.post("/register", response_model=schemas.UserPublic)
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -93,6 +82,17 @@ def read_user(user_id: int, db: Session = Depends(get_db), current_user: models.
     return db_user
 
 
+@router.get("/users/", response_model=list[schemas.UserPublic])
+def get_users(role: str = None, db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
+    query = db.query(models.User)
+
+    if role:
+        query = query.filter(models.User.role == role)
+
+    users = query.all()
+    return users
+
+
 @router.put("/users/{user_id}", response_model=schemas.UserPublic)
 def update_user(user_id: int, user_update: schemas.UserUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if current_user.id != user_id and current_user.role != "team_lead":
@@ -108,43 +108,40 @@ def update_user(user_id: int, user_update: schemas.UserUpdate, db: Session = Dep
 
 # ===== Проекты =====
 @router.post("/projects/", response_model=schemas.ProjectInDB)
-def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_db),current_user: models.User = Depends(get_current_user)):
     if current_user.role != "team_lead":
-        logger.error(f"User with username {current_user.username} cannot create project")
         raise HTTPException(status_code=403, detail="Only team leads can create projects")
 
-    logger.info(f"Creating project with username {current_user.username} finished")
     return crud.create_project(db=db, project=project)
 
-
 @router.get("/projects/", response_model=list[schemas.ProjectInDB])
-def read_projects(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    logger.info(f"Reading projects with username {current_user.username}")
-    return crud.get_projects(db, skip=skip, limit=limit)
-
+def read_projects(skip: int = 0, limit: int = 100, query: Optional[str] = None, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role == "team_lead":
+        return crud.get_projects(db, team_lead_id=current_user.id, skip=skip, limit=limit, query=query)
+    return crud.get_projects(db, skip=skip, limit=limit, query=query)
 
 @router.get("/projects/{project_id}", response_model=schemas.ProjectInDB)
 def read_project(project_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    logger.info(f"Reading project with id {project_id} started")
     db_project = crud.get_project(db, project_id=project_id)
     if db_project is None:
-        logger.error(f"Project with id {project_id} not found")
         raise HTTPException(status_code=404, detail="Project not found")
+
+    if current_user.role == "team_lead" and db_project.team_lead_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Access denied to this project")
 
     return db_project
 
 
 @router.delete("/projects/{project_id}")
 def delete_project(project_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    if current_user.role != "team_lead":
-        logger.error(f"User with username {current_user.username} cannot delete project")
-        raise HTTPException(status_code=403, detail="Only team leads can delete projects")
+    try:
+        success = crud.delete_project(db, project_id, current_user)
+    except HTTPException as e:
+        raise e
 
-    if not crud.delete_project(db, project_id):
-        logger.error(f"Project with id {project_id} not found")
+    if not success:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    logger.info(f"Deleting project with id {project_id} finished")
     return {"message": "Project deleted"}
 
 
@@ -165,23 +162,21 @@ def create_task(task: schemas.TaskCreate, db: Session = Depends(get_db), current
 
 
 @router.get("/tasks/", response_model=list[schemas.TaskPublic])
-def read_tasks(
-    skip: int = 0,
-    limit: int = 100,
-    project_id: Optional[int] = None,
+def get_tasks(
+    title: Optional[str] = Query(None, description="Поиск по названию"),
+    status: Optional[str] = Query(None, description="Фильтр по статусу"),
+    project_id: Optional[int] = Query(None, description="Фильтр по проекту"),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    if current_user.role == "team_lead":
-        if project_id is None:
-            logger.error(f"Project with id {project_id} not found")
-            raise HTTPException(status_code=400, detail="project_id is required for team_lead")
-
-        logger.info(f"Reading tasks with project id {project_id} finished for team_lead")
-        return crud.get_tasks_by_project(db, project_id=project_id)
-    else:
-        logger.info(f"Reading tasks with project id {project_id} finished for developer")
-        return crud.get_user_tasks(db, user_id=current_user.id)
+    return crud.get_user_related_tasks(
+        db=db,
+        user_id=current_user.id,
+        user_role=current_user.role,
+        title=title,
+        status=status,
+        project_id=project_id
+    )
 
 @router.get("/tasks/{task_id}", response_model=schemas.TaskPublic)
 def read_task(task_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
@@ -262,13 +257,21 @@ def delete_task(
         logger.error(f"User with username {current_user.username} cannot delete task")
         raise HTTPException(status_code=403, detail="Only team leads can delete tasks")
 
-    if not crud.delete_task(db, task_id=task_id):
+    if not crud.delete_task(db, task_id=task_id, deleted_by_id=current_user.id):
+        logger.info(f"Task id = {task_id}")
         logger.error(f"Task with id {task_id} not found")
         raise HTTPException(status_code=404, detail="Task not found")
 
     logger.info(f"Deleting task with id {task_id} finished")
     return {"message": "Task deleted"}
 
+# ==== История задач ====
+@router.get("/task-history/{task_id}", response_model=list[schemas.TaskHistoryInDB])
+def get_task_history(task_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    history = crud.get_task_history_by_task_id(db, current_user.id, task_id)
+    if not history:
+        raise HTTPException(status_code=404, detail="Task history not found")
+    return history
 
 
 

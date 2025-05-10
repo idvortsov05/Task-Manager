@@ -39,6 +39,7 @@ class ProjectBase(BaseSchema):
     name: str
     description: Optional[str] = None
     status: str
+    team_lead_id: int
 
 class ProjectCreate(ProjectBase):
     pass

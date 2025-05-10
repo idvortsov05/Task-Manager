@@ -22,9 +22,7 @@ class User(Base):
     assigned_tasks = relationship("Task", back_populates="assignee", foreign_keys="Task.assigned_to")
     notifications = relationship("Notification", back_populates="user")
 
-    __table_args__ = (
-        CheckConstraint("role IN ('team_lead', 'developer')", name='check_user_role'),
-    )
+    __table_args__ = (CheckConstraint("role IN ('team_lead', 'developer')", name='check_user_role'),)
 
 
 class Project(Base):
@@ -34,12 +32,12 @@ class Project(Base):
     name = Column(String(100), nullable=False)
     description = Column(Text)
     status = Column(String(20), nullable=False)
+    team_lead_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     tasks = relationship("Task", back_populates="project")
+    team_lead = relationship("User")
 
-    __table_args__ = (
-        CheckConstraint("status IN ('active', 'completed')", name='check_project_status'),
-    )
+    __table_args__ = (CheckConstraint("status IN ('open', 'active', 'completed')", name='check_project_status'),)
 
 
 class Task(Base):
@@ -58,11 +56,9 @@ class Task(Base):
     project = relationship("Project", back_populates="tasks")
     creator = relationship("User", foreign_keys=[created_by], back_populates="created_tasks")
     assignee = relationship("User", foreign_keys=[assigned_to], back_populates="assigned_tasks")
-    history = relationship("TaskHistory", back_populates="task")
+    history = relationship("TaskHistory", back_populates="task", cascade="all, delete-orphan")
 
-    __table_args__ = (
-        CheckConstraint("status IN ('open', 'in_progress', 'done', 'closed')", name='check_task_status'),
-    )
+    __table_args__ = (CheckConstraint("status IN ('open', 'in_progress', 'done', 'closed')", name='check_task_status'),)
 
 
 class TaskHistory(Base):

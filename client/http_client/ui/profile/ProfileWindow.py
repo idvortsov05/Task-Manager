@@ -1,19 +1,19 @@
 from client.http_client.config.config_client import get_config
 from client.http_client.logger.logger_client import get_logger
 
-from PyQt5.QtWidgets import QDialog, QMessageBox, QFileDialog
-from PyQt5 import uic
-import requests
 import base64
 import hashlib
+import requests
+from PyQt5 import uic
+from PyQt5.QtWidgets import QDialog, QMessageBox, QFileDialog
 
 config = get_config("client/http_client/config/config.ini")
 LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
-logger = get_logger("login window", LOGGER_CONFIG_PATH)
+logger = get_logger("client", LOGGER_CONFIG_PATH)
 
 
 class ProfileWindow(QDialog):
-    def __init__(self,token , parent=None):
+    def __init__(self,token):
         super().__init__()
         self.token = token
         self.photo_path = None
@@ -38,9 +38,7 @@ class ProfileWindow(QDialog):
 
     def load_user_data(self):
         url_get_current_user = config["URLS"]["current_user"]
-        headers = {
-            "Authorization": f"Bearer {self.token}"
-        }
+        headers = {"Authorization": f"Bearer {self.token}"}
 
         try:
             logger.debug(f"Sending request to get current user: {url_get_current_user}")
@@ -63,9 +61,8 @@ class ProfileWindow(QDialog):
             QMessageBox.critical(self, "Ошибка", "Ошибка подключения при загрузке данных")
 
     def select_photo(self):
-        file_name, _ = QFileDialog.getOpenFileName(
-            self, "Выбрать фото", "", "Images (*.png *.jpg *.jpeg *.bmp)"
-        )
+        file_name = QFileDialog.getOpenFileName(self, "Выбрать фото", "", "Images (*.png *.jpg *.jpeg *.bmp)")
+
         if file_name:
             self.photo_path = file_name
             logger.debug(f"Photo selected: {file_name}")
@@ -110,10 +107,7 @@ class ProfileWindow(QDialog):
             url = url_template.replace("{user_id}", str(self.user_id))
             logger.debug(f"Sending update profile request: {url}")
 
-            headers = {
-                "Authorization": f"Bearer {self.token}"
-            }
-
+            headers = {"Authorization": f"Bearer {self.token}"}
             response = requests.put(url, headers=headers, json=data)
 
             if response.status_code == 200:

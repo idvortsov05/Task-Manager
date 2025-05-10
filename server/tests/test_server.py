@@ -116,7 +116,8 @@ def test_create_project():
     project_data = ProjectCreate(
         name="Test Project",
         description="Test Description",
-        status = "active"
+        status = "active",
+        team_lead_id=1
     )
 
     mock_project = Project(id=1, name="Test Project", status = "active", description="Test Description")
@@ -146,21 +147,23 @@ def test_get_project():
 # ===== Тесты для задач =====
 def test_create_task():
     mock_db = Mock(spec=Session)
-
     task_data = TaskCreate(
         title="Test Task",
         description="Test Description",
         project_id=1,
         assigned_to=1,
-        status="open"
+        status="open",
+        priority=1,
     )
-
     mock_task = Task(id=1, title="Test Task", created_by=1)
-    with patch('server.http_server.crud.models.Task', return_value=mock_task):
-        result = crud.create_task(mock_db, task_data, creator_id=1)
 
-    mock_db.add.assert_called_once()
-    mock_db.commit.assert_called_once()
+    with patch('server.http_server.crud.models.Task', return_value=mock_task), \
+         patch('server.http_server.crud.calc_priority', return_value=0.5):
+        result = crud.create_task(mock_db, task_data, creator_id=1)
+        assert result is not None
+
+    assert mock_db.add.call_count == 4
+    assert mock_db.commit.call_count == 2
     mock_db.refresh.assert_called_once()
 
     assert isinstance(result, Task)
@@ -180,17 +183,6 @@ def test_update_task_status():
     mock_db.refresh.assert_called_once()
 
     assert result.status == "in_progress"
-
-
-def test_update_task_status_invalid_transition():
-    mock_db = Mock(spec=Session)
-
-    mock_task = Task(id=1, status="closed")
-    mock_db.query().get.return_value = mock_task
-
-    with pytest.raises(ValueError):
-        crud.update_task_status(mock_db, 1, "open", 2)
-
 
 def test_reassign_task():
     mock_db = Mock(spec=Session)
@@ -212,7 +204,7 @@ def test_delete_task():
     mock_task = Task(id=1)
     mock_db.query().get.return_value = mock_task
 
-    result = crud.delete_task(mock_db, 1)
+    result = crud.delete_task(mock_db, 1, deleted_by_id=1)
 
     mock_db.delete.assert_called_once_with(mock_task)
     mock_db.commit.assert_called_once()

@@ -1,0 +1,257 @@
+/* Фон всего окна */
+QWidget {
+    background-color: #f4f6f8;
+}
+
+/* Заголовок окна */
+QGroupBox {
+    color: #202124;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+/* Основные подписи */
+QLabel {
+    color: #3c4043;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px;
+}
+
+/* Поля ввода */
+QLineEdit {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+/* Выпадающий список */
+QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QComboBox:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    selection-background-color: #eef3fb;
+}
+
+/* Таблицы */
+QTableView {
+    background-color: #f4f6f8;
+    border: 1px solid #d0d5d8;
+    border-radius: 6px;
+    font-size: 13px;
+    gridline-color: #e0e0e0;
+    selection-background-color: #e8f0fe;
+    selection-color: #202124;
+    outline: 0;
+    alternate-background-color: #f8f9fa;
+}
+
+QHeaderView {
+    background-color: transparent;
+}
+
+QHeaderView::section {
+    background-color: #f1f3f4;
+    color: #3c4043;
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid #d0d5d8;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+QTableView::item {
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 6px;
+}
+
+QTableView::item:last {
+    border-right: none;
+}
+
+QTableView QTableCornerButton::section {
+    background-color: #f1f3f4;
+    border: 1px solid #d0d5d8;
+    border-radius: 0;
+}
+
+QTableView::item:hover {
+    background-color: #f1f3f4;
+}
+
+/* Кнопка "Применить" */
+QPushButton#pushButton_apply_filters {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_apply_filters:hover {
+    background-color: #357ae8;
+}
+
+QPushButton#pushButton_apply_filters:pressed {
+    background-color: #2a65c7;
+}
+
+/* Кнопка "Сбросить" */
+QPushButton#pushButton_reset_filters {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_reset_filters:hover {
+    background-color: #357ae8;
+}
+
+QPushButton#pushButton_reset_filters:pressed {
+     background-color: #2a65c7;
+}
+
+/* Кнопка "Выйти" */
+QPushButton#pushButton_exit {
+    background-color: #ea4335;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+}
+
+QPushButton#pushButton_exit:hover {
+    background-color: #d93025;
+}
+
+QPushButton#pushButton_exit:pressed {
+    background-color: #b1271b;
+}
+
+/* Кнопка "Информация о задаче" */
+QPushButton#pushButton_read_task {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: none;
+    min-width: 120px;
+}
+
+QPushButton#pushButton_read_task:hover {
+     background-color: #357ae8;
+}
+
+QPushButton#pushButton_read_task:pressed {
+    background-color: #2a65c7;
+}
+
+/* Кнопка "Обновить статус" */
+QPushButton#pushButton_update_status_task {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: none;
+    min-width: 120px;
+}
+
+QPushButton#pushButton_update_status_task:hover {
+    background-color: #357ae8;
+}
+
+QPushButton#pushButton_update_status_task:pressed {
+    background-color: #2a65c7;
+}
+
+/* Кнопка "Переназначить" */
+QPushButton#pushButton_reassign_task {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: none;
+    min-width: 120px;
+}
+
+QPushButton#pushButton_reassign_task:hover {
+   background-color: #357ae8;
+}
+
+QPushButton#pushButton_reassign_task:pressed {
+   background-color: #2a65c7;
+}
+
+/* Кнопка "Удалить" */
+QPushButton#pushButton_delete_task {
+    background-color: #ea4335;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: none;
+    min-width: 120px;
+}
+
+QPushButton#pushButton_delete_task:hover {
+    background-color: #d93025;
+}
+
+QPushButton#pushButton_delete_task:pressed {
+    background-color: #b1271b;
+}
+
+/* Горизонтальный лэйаут для кнопок действий */
+QWidget#horizontalLayoutWidget_2 {
+    background-color: transparent;
+}
+
+/* Выравнивание кнопок в лэйауте */
+QHBoxLayout#horizontalLayout_buttons_actions {
+    spacing: 10px;
+    margin: 0;
+    padding: 0;
+}

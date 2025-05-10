@@ -1,0 +1,55 @@
+QWidget#TaskWidget {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 10px;
+    padding: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+QWidget#TaskWidget:hover {
+    background-color: #eef3fb;
+    border: 1px solid #4285f4;
+}
+
+/* Заголовок задачи */
+QLabel#label_title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #202124;
+    padding: 2px 0;
+}
+
+/* Исполнитель */
+QLabel#label_assignee {
+    font-size: 14px;
+    color: #555;
+    padding: 2px 0;
+}
+
+/* Приоритет */
+QLabel#label_priority {
+    font-size: 14px;
+    padding: 2px 0;
+}
+
+/* Дедлайн */
+QLabel#label_deadline {
+    font-size: 14px;
+    color: #d32f2f;
+    padding: 2px 0;
+}
+
+QLabel {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding-left: 4px;
+}
+
+QWidget#verticalLayoutWidget {
+    border: none;
+    background: transparent;
+    margin: 0px;
+    padding: 0px;
+}
+
