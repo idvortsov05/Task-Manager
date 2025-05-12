@@ -5,6 +5,7 @@ from client.http_client.ui.profile.ProfileWindow import ProfileWindow
 from client.http_client.ui.main.tasks.TasksWindow import TasksWindow
 from client.http_client.ui.main.Task import TaskWidget
 from client.http_client.ui.main.createTask.create import CreateTaskWindow
+from client.http_client.ui.main.ProjectWidget import ProjectWindow
 
 import requests
 from PyQt5 import uic
@@ -22,12 +23,14 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.login_window = None
         self.tasks_window = None
+        self.project_window = None
         self.token = token
         self.headers = {"Authorization": f"Bearer {self.token}"}
         self.projects = []
         self.project_id = None
         self.project_name = None
         self.user_role = None
+        self.user_id = None
         logger.info(f"token: {self.token}")
         logger.debug("Main window created")
         uic.loadUi('client/http_client/ui/main/Main.ui', self)
@@ -40,6 +43,7 @@ class MainWindow(QMainWindow):
         self.pushButton_profile.clicked.connect(self.open_profile)
         self.pushButton_exit.clicked.connect(self.close_window)
         self.pushButton_tasks.clicked.connect(self.open_tasks)
+        self.pushButton_create_project.clicked.connect(self.create_project)
         self.lineEdit_find_projects.textChanged.connect(self.filter_projects)
         self.lineEdit_find_by_tasks.textChanged.connect(self.find_by_tasks)
         self.listWidget_projects.itemClicked.connect(self.on_project_selected)
@@ -53,9 +57,12 @@ class MainWindow(QMainWindow):
         self.pushButton_progress_tasks.clicked.connect(lambda: self.open_create_task("in_progress"))
         self.pushButton_finish_tasks.clicked.connect(lambda: self.open_create_task("done"))
         self.pushButton_close_tasks.clicked.connect(lambda: self.open_create_task("closed"))
+        self.pushButton_delete_project.clicked.connect(self.delete_project)
 
         logger.debug("Main window signals were connected")
         self.lineEdit_find_projects.setPlaceholderText("Название проекта")
+        self.label_project_name.setVisible(False)
+        self.label_project_description.setVisible(False)
 
         self.load_projects()
 
@@ -74,6 +81,20 @@ class MainWindow(QMainWindow):
         logger.debug("Tasks window opened")
         self.tasks_window = TasksWindow(token=self.token, project_id=self.project_id)
         self.tasks_window.exec_()
+        self.show()
+
+    def create_project(self):
+        logger.debug("Create project window opened")
+
+        response = requests.get(config["URLS"]["current_user"], headers=self.headers)
+
+        if response.status_code == 200:
+            user_data = response.json()
+            self.user_id = user_data["id"]
+        self.project_window = ProjectWindow(token=self.token, teamlead_id=self.user_id)
+        logger.debug(f"user id: {self.user_id}")
+        self.project_window.exec_()
+        self.load_projects()
         self.show()
 
     def load_projects(self):
@@ -124,7 +145,9 @@ class MainWindow(QMainWindow):
         self.project_id = project["id"]
         self.project_name = project["name"]
         self.label_project_name.setText(f"Проект: {self.project_name}")
+        self.label_project_name.setVisible(True)
         self.label_project_description.setText(f"Описание проекта: {project['description']}")
+        self.label_project_description.setVisible(True)
         logger.info(f"Selected project: {project['name']} (ID: {project['id']})")
 
         self.load_tasks_from_project(self.project_id)
@@ -381,6 +404,93 @@ class MainWindow(QMainWindow):
             return datetime_str
         except Exception as e:
             return datetime_str
+
+    def delete_project(self):
+        if self.project_id is None:
+            QMessageBox.warning(self, "Ошибка", "Проект не выбран")
+            return
+
+        try:
+            project_name = self.project_name
+
+            dialog = QtWidgets.QDialog(self)
+            dialog.setWindowTitle("Подтверждение удаления")
+            dialog.setMinimumWidth(400)
+
+            layout = QtWidgets.QVBoxLayout(dialog)
+
+            label = QtWidgets.QLabel(f'Вы точно хотите удалить проект "<b>{project_name}</b>" (ID: {self.project_id})?')
+            label.setWordWrap(True)
+            layout.addWidget(label)
+
+            button_box = QtWidgets.QHBoxLayout()
+
+            btn_cancel = QtWidgets.QPushButton("Отменить")
+            btn_cancel.setObjectName("pushButton_cancel")
+            btn_cancel.clicked.connect(dialog.reject)
+            button_box.addWidget(btn_cancel)
+
+            btn_apply = QtWidgets.QPushButton("Подтвердить")
+            btn_apply.setObjectName("pushButton_apply")
+            btn_apply.clicked.connect(dialog.accept)
+            button_box.addWidget(btn_apply)
+
+            layout.addLayout(button_box)
+
+            dialog.setStyleSheet("""
+                QDialog {
+                    background-color: #f4f6f8;
+                    padding: 10px;
+                }
+                QLabel {
+                    font-size: 13px;
+                    margin-bottom: 5px;
+                }
+                QPushButton#pushButton_apply {
+                    background-color: #34a853;
+                    color: #ffffff;
+                    font-size: 13px;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    padding: 6px 16px;
+                    border: none;
+                    min-width: 100px;
+                }
+                QPushButton#pushButton_cancel {
+                    background-color: #ea4335;
+                    color: #ffffff;
+                    font-size: 13px;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    padding: 6px 16px;
+                    border: none;
+                    min-width: 100px;
+                }
+            """)
+
+            if dialog.exec_() == QtWidgets.QDialog.Accepted:
+                logger.info(f"Попытка удаления проекта {self.project_id}")
+
+                url = config["URLS"]["delete_project"].replace("{project_id}", str(self.project_id))
+                response = requests.delete(url, headers=self.headers, json={"project_id": int(self.project_id)})
+
+                if response.status_code == 200:
+                    logger.info(f"Проект {self.project_id} успешно удален")
+                    QMessageBox.information(self, "Успех", "Проект успешно удален")
+                    self.project_id = None
+                    self.load_projects()
+                else:
+                    error_msg = response.json().get("message", "Неизвестная ошибка")
+                    logger.error(f"Ошибка удаления: {error_msg}")
+                    QMessageBox.critical(self, "Ошибка", f"Не удалось удалить проект: {error_msg}")
+
+            else:
+                logger.info(f"Удаление проекта {self.project_id} отменено пользователем")
+
+        except requests.exceptions.RequestException as e:
+            error_msg = str(e)
+            logger.error(f"Ошибка сети при удалении: {error_msg}")
+            QMessageBox.critical(self, "Ошибка сети", f"Не удалось соединиться с сервером: {error_msg}")
 
 
 

@@ -66,23 +66,17 @@ QPushButton#pushButton_exit:hover {
     background-color: #d32f2f;
 }
 
-QPushButton#pushButton_generate_reports,
-QPushButton#pushButton_profile_docs {
-    background-color: #2196F3;
-}
-
-QPushButton#pushButton_generate_reports:hover,
-QPushButton#pushButton_profile_docs:hover {
-    background-color: #1976D2;
-}
-
 QPushButton#pushButton_tasks,
-QPushButton#pushButton_profile {
+QPushButton#pushButton_profile,
+QPushButton#pushButton_create_project,
+QPushButton#pushButton_delete_project {
     background-color: #607D8B;
 }
 
 QPushButton#pushButton_tasks:hover,
-QPushButton#pushButton_profile:hover {
+QPushButton#pushButton_profile:hover,
+QPushButton#pushButton_create_project:hover
+QPushButton#pushButton_delete_project:hover {
     background-color: #455A64;
 }
 

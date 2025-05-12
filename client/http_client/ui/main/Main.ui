@@ -35,19 +35,6 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="pushButton_generate_reports">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>830</y>
-          <width>221</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Сгенерировать отчет</string>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pushButton_tasks">
         <property name="geometry">
          <rect>
@@ -65,7 +52,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>140</y>
+          <y>150</y>
           <width>209</width>
           <height>21</height>
          </rect>
@@ -84,24 +71,11 @@
          <string>Мой профиль</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_profile_docs">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>790</y>
-          <width>221</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Документация</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_find_projects">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>110</y>
+          <y>120</y>
           <width>191</width>
           <height>31</height>
          </rect>
@@ -113,8 +87,8 @@
        <widget class="QListWidget" name="listWidget_projects">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>200</y>
+          <x>10</x>
+          <y>220</y>
           <width>211</width>
           <height>211</height>
          </rect>
@@ -123,14 +97,27 @@
        <widget class="QLabel" name="label_projects">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>180</y>
+          <x>20</x>
+          <y>190</y>
           <width>91</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
          <string>Проекты:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_create_project">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>90</y>
+          <width>221</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Создать проект</string>
         </property>
        </widget>
       </widget>
@@ -143,7 +130,7 @@
       <x>260</x>
       <y>0</y>
       <width>1001</width>
-      <height>80</height>
+      <height>121</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_find_sort">
@@ -204,6 +191,19 @@
          <string>TextLabel</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton_delete_project">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>151</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Завершить проект</string>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -225,9 +225,9 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>90</y>
+      <y>119</y>
       <width>285</width>
-      <height>790</height>
+      <height>761</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_open" stretch="0">
@@ -316,7 +316,7 @@
              <x>0</x>
              <y>0</y>
              <width>258</width>
-             <height>690</height>
+             <height>661</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -345,9 +345,9 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>90</y>
+      <y>119</y>
       <width>285</width>
-      <height>790</height>
+      <height>761</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_progress" stretch="0">
@@ -433,7 +433,7 @@
              <x>0</x>
              <y>0</y>
              <width>258</width>
-             <height>690</height>
+             <height>661</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -449,9 +449,9 @@
     <property name="geometry">
      <rect>
       <x>840</x>
-      <y>90</y>
+      <y>119</y>
       <width>285</width>
-      <height>790</height>
+      <height>761</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_finish" stretch="0">
@@ -537,7 +537,7 @@
              <x>0</x>
              <y>0</y>
              <width>258</width>
-             <height>690</height>
+             <height>661</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_6"/>
@@ -553,9 +553,9 @@
     <property name="geometry">
      <rect>
       <x>1130</x>
-      <y>90</y>
+      <y>119</y>
       <width>285</width>
-      <height>790</height>
+      <height>761</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_close" stretch="0">
@@ -641,7 +641,7 @@
              <x>0</x>
              <y>0</y>
              <width>258</width>
-             <height>690</height>
+             <height>661</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_8"/>

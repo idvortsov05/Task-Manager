@@ -1,0 +1,74 @@
+/* Фон всего окна */
+QWidget {
+    background-color: #f4f6f8;
+}
+
+/* Надписи (QLabel) */
+QLabel {
+    color: #3c4043;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px;
+}
+
+/* Поля ввода (QLineEdit) */
+QLineEdit {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #4285f4;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 16px;
+    min-height: 32px;
+}
+
+QPushButton:hover {
+    background-color: #357ae8;
+}
+
+QPushButton:pressed {
+    background-color: #2a65d3;
+}
+
+QPushButton:disabled {
+    background-color: #a0c2fa;
+    color: #f0f0f0;
+}
+
+/* Комбо-бокс (исполнитель) */
+QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #202124;
+    min-height: 15px;
+}
+
+QComboBox:focus {
+    border: 1px solid #4285f4;
+    background-color: #eef3fb;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    border: 1px solid #d0d5d8;
+    selection-background-color: #eef3fb;
+}
