@@ -6,12 +6,14 @@ from client.http_client.ui.main.tasks.TasksWindow import TasksWindow
 from client.http_client.ui.main.Task import TaskWidget
 from client.http_client.ui.main.createTask.create import CreateTaskWindow
 from client.http_client.ui.main.ProjectWidget import ProjectWindow
+from client.http_client.ui.reports.report_generator import generate_pdf_report
 
+import os
 import requests
 from PyQt5 import uic
 from datetime import datetime
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QMainWindow, QDialog
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QDialog, QFileDialog
 
 config = get_config("client/http_client/config/config.ini")
 LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
@@ -58,6 +60,7 @@ class MainWindow(QMainWindow):
         self.pushButton_finish_tasks.clicked.connect(lambda: self.open_create_task("done"))
         self.pushButton_close_tasks.clicked.connect(lambda: self.open_create_task("closed"))
         self.pushButton_delete_project.clicked.connect(self.delete_project)
+        self.pushButton_create_report.clicked.connect(self.generate_project_report)
 
         logger.debug("Main window signals were connected")
         self.lineEdit_find_projects.setPlaceholderText("Название проекта")
@@ -106,7 +109,7 @@ class MainWindow(QMainWindow):
             self.projects = response.json()
 
             if not self.projects:
-                QMessageBox.information(self, "Информация", "У вас нет доступных проектов")
+                QMessageBox.about(self, "Информация", "У вас нет доступных проектов")
                 return
 
             self.update_projects_list(self.projects)
@@ -338,7 +341,7 @@ class MainWindow(QMainWindow):
                             update_url = config["URLS"]["update_task_status"].replace("{task_id}", str(task_id))
                             resp = requests.patch(update_url, headers=self.headers, json={"status": new_status})
                             if resp.status_code == 200:
-                                QMessageBox.information(self, "Успех", "Статус задачи обновлен")
+                                QMessageBox.about(self, "Успех", "Статус задачи обновлен")
                                 info_dialog.accept()
                                 self.load_tasks_from_project(self.project_id)
                             else:
@@ -347,7 +350,7 @@ class MainWindow(QMainWindow):
                         except Exception as e:
                             QMessageBox.critical(self, "Ошибка", f"Ошибка обновления статуса: {str(e)}")
                     elif confirm_box.clickedButton() == no_button:
-                        QMessageBox.information(self, "Информация", "Операция была отменена")
+                        QMessageBox.about(self, "Информация", "Операция была отменена")
 
                 action_button.clicked.connect(on_action)
                 button_layout.addWidget(action_button, alignment=QtCore.Qt.AlignLeft)
@@ -476,7 +479,7 @@ class MainWindow(QMainWindow):
 
                 if response.status_code == 200:
                     logger.info(f"Проект {self.project_id} успешно удален")
-                    QMessageBox.information(self, "Успех", "Проект успешно удален")
+                    QMessageBox.about(self, "Успех", "Проект успешно удален")
                     self.project_id = None
                     self.load_projects()
                 else:
@@ -491,6 +494,36 @@ class MainWindow(QMainWindow):
             error_msg = str(e)
             logger.error(f"Ошибка сети при удалении: {error_msg}")
             QMessageBox.critical(self, "Ошибка сети", f"Не удалось соединиться с сервером: {error_msg}")
+
+    def generate_project_report(self):
+        if not self.project_id:
+            QMessageBox.warning(self, "Ошибка", "Сначала выберите проект")
+            return
+
+        try:
+            # Получаем данные о проекте
+            url_project = config["URLS"]["get_project_by_id"].format(project_id=self.project_id)
+            project = requests.get(url_project, headers=self.headers).json()
+
+            # Получаем руководителя проекта
+            url_user = config["URLS"]["get_user_by_id"].format(user_id=project["team_lead_id"])
+            team_lead = requests.get(url_user, headers=self.headers).json()
+
+            # Получаем задачи проекта
+            url_tasks = config["URLS"]["get_tasks"]
+            tasks = requests.get(url_tasks, headers=self.headers, params={"project_id": self.project_id}).json()
+
+            # Выбор пути для сохранения отчёта
+            directory = QFileDialog.getExistingDirectory(self, "Выберите папку для сохранения отчёта")
+            if directory:
+                safe_name = project['name'].replace(" ", "_")
+                filename = os.path.join(directory, f"{safe_name}_отчёт.pdf")
+
+                icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'icon.png'))
+                generate_pdf_report(project, tasks, team_lead, filename, icon_path)
+                QMessageBox.information(self, "Успех", f"Отчёт успешно сохранён в:\n{filename}")
+        except Exception as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка при генерации отчёта: {str(e)}")
 
 
 

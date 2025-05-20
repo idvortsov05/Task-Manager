@@ -27,21 +27,25 @@ class TaskWidget(QDialog):
     def setup_task_info(self):
         self.label_title.setText(f"📌Название: {self.title}")
         self.label_assignee.setText(f"👤Разработчик: {self.assignee}")
-        self.label_priority.setText(f"Приоритет: {self.get_priority_text(self.priority)}")
+
+        priority_text, color = self.get_priority_text(self.priority)
+        self.label_priority.setText(f"🚨Приоритет: {priority_text}")
+        self.label_priority.setStyleSheet(f"color: {color};")
+
         self.label_deadline.setText(f"📅Дедлайн: {self.format_datetime(self.deadline)}")
 
     def get_priority_text(self, priority_value):
         try:
             priority = float(priority_value)
             if priority <= 0.35:
-                return "низкий 🟢"
+                return "низкий 🟢", "green"
             elif 0.35 < priority <= 0.75:
-                return "средний 🟡"
+                return "средний 🟡", "orange"
             elif 0.75 < priority <= 0.99:
-                return "высокий 🔴"
-            return "не определён"
+                return "высокий 🔴", "red"
+            return "не определён", "gray"
         except:
-            return "не определён"
+            return "не определён", "gray"
 
     def format_datetime(self, datetime_str):
         try:

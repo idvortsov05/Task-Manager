@@ -161,7 +161,7 @@ class TasksWindow(QDialog):
 
             if not tasks:
                 self.tableView_tasks.setVisible(False)
-                QMessageBox.information(self, "Информация", "У вас нет задач с выбранными параметрами!")
+                QMessageBox.about(self, "Информация", "У вас нет задач с выбранными параметрами!")
                 return
 
             for task in tasks:
@@ -205,7 +205,7 @@ class TasksWindow(QDialog):
 
             if response.status_code == 404:
                 self.groupBox_task_history.setVisible(False)
-                QMessageBox.information(self, "Информация", "Эта задача еще не имеет истории изменений!")
+                QMessageBox.about(self, "Информация", "Эта задача еще не имеет истории изменений!")
                 return
 
             response.raise_for_status()
@@ -214,7 +214,7 @@ class TasksWindow(QDialog):
 
             if not history_data:
                 self.groupBox_task_history.setVisible(False)
-                QMessageBox.information(self, "Информация", "История изменений задачи пуста")
+                QMessageBox.about(self, "Информация", "История изменений задачи пуста")
                 return
 
             self.groupBox_task_history.setVisible(True)
@@ -245,7 +245,7 @@ class TasksWindow(QDialog):
         except requests.exceptions.HTTPError as e:
             if e.response.status_code == 404:
                 self.groupBox_task_history.setVisible(False)
-                QMessageBox.information(self, "Информация", "История изменений для этой задачи не найдена")
+                QMessageBox.about(self, "Информация", "История изменений для этой задачи не найдена")
             else:
                 self.groupBox_task_history.setVisible(False)
                 QMessageBox.warning(self, "Ошибка", f"Ошибка сервера при загрузке истории: {str(e)}")
@@ -427,7 +427,7 @@ class TasksWindow(QDialog):
                 allowed_statuses = valid_transactions_for_dev.get(current_status, [])
 
             if not allowed_statuses:
-                QMessageBox.information(self, "Информация",
+                QMessageBox.about(self, "Информация",
                                         f"Нет доступных переходов для текущего статуса '{current_status_display}'")
                 return
 
@@ -516,7 +516,7 @@ class TasksWindow(QDialog):
 
                 if response.status_code == 200:
                     logger.info(f"Статус задачи {task_id} успешно изменен на '{new_status}'")
-                    QMessageBox.information(self, "Успех", "Статус задачи обновлен")
+                    QMessageBox.about(self, "Успех", "Статус задачи обновлен")
                     self.apply_filters()
                 else:
                     error_msg = response.json().get("detail", "Неизвестная ошибка")
@@ -644,7 +644,7 @@ class TasksWindow(QDialog):
 
                 if response.status_code == 200:
                     logger.info(f"Задача {task_id} успешно переназначена")
-                    QMessageBox.information(self, "Успех", "Исполнитель задачи обновлен")
+                    QMessageBox.about(self, "Успех", "Исполнитель задачи обновлен")
                     self.apply_filters()
                 else:
                     error_msg = response.json().get("detail", "Неизвестная ошибка")
@@ -734,7 +734,7 @@ class TasksWindow(QDialog):
 
                 if response.status_code == 200:
                     logger.info(f"Задача {task_id} успешно удалена")
-                    QMessageBox.information(self, "Успех", "Задача успешно удалена")
+                    QMessageBox.about(self, "Успех", "Задача успешно удалена")
                     self.apply_filters()
                 else:
                     error_msg = response.json().get("message", "Неизвестная ошибка")

@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
+    <width>270</width>
     <height>250</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>270</width>
+    <height>250</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>270</width>
+    <height>250</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Создание проекта</string>

@@ -3,14 +3,19 @@ from client.http_client.logger.logger_client import get_logger
 from client.http_client.ui.auth.RegisterWindow import RegisterWindow
 from client.http_client.ui.main.MainWindow import MainWindow
 
+import os
 import requests
 from PyQt5 import uic
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QMessageBox
 
 config = get_config("client/http_client/config/config.ini")
 LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
 logger = get_logger("client", LOGGER_CONFIG_PATH)
 
+icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'images', 'icon.png'))
+print("ICON PATH:", icon_path)
+print("Файл существует:", os.path.exists(icon_path))
 
 class LoginWindow(QDialog):
     def __init__(self):
@@ -58,10 +63,11 @@ class LoginWindow(QDialog):
                     else:
                         role = 'Разработчик'
 
-                    QMessageBox.information(None, "Информация", "Добро пожаловать, " + full_name + '!' +'\n' + "Ваша роль - " + role)
+                    QMessageBox.about(None, "Информация", "Добро пожаловать, " + full_name + '!' +'\n' + "Ваша роль - " + role)
                     self.accept()
                     self.close()
                     self.main_window = MainWindow(token=token)
+                    self.main_window.setWindowIcon(QIcon(icon_path))
                     self.main_window.show()
                 else:
                     QMessageBox.warning(None, "Ошибка", f"Не удалось получить данные пользователя: {user_info_response.text}")

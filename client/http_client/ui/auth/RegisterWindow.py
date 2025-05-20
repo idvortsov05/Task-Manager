@@ -111,7 +111,7 @@ class RegisterWindow(QDialog):
                             else:
                                 role = 'Разработчик'
 
-                            QMessageBox.information(None, "Информация", "Добро пожаловать, " + full_name + '!' + '\n' + "Ваша роль - " + role)
+                            QMessageBox.about(None, "Информация", "Добро пожаловать, " + full_name + '!' + '\n' + "Ваша роль - " + role)
                             self.accept()
                             self.main_window = MainWindow(token=token)
                             self.main_window.show()

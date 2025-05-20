@@ -1,12 +1,11 @@
-from config.config_server import get_config
-
 ''' Для запуска программы необходимо использовать абсолютные импорты, так как программа запускается из корневой директории'''
 import notificatons # ДЛЯ ЗАПУСКА ПРОГРАММЫ
 import models, schemas # ДЛЯ ЗАПУСКА ПРОГРАММЫ
+from config.config_server import get_config
 
 ''' Для тестов необходимо использовать относительные импорты, так как они запускаются из директории тестов'''
 # from ..http_server import models, schemas # ДЛЯ ТЕСТОВ
-# import notificaton # ДЛЯ ТЕСТОВ
+# import notificatons # ДЛЯ ТЕСТОВ
 # from server.http_server.config.config_server import get_config # ДЛЯ ТЕСТОВ
 
 import joblib

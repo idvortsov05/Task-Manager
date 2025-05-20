@@ -97,7 +97,7 @@ class ProfileWindow(QDialog):
                 return
 
         if not data:
-            QMessageBox.information(self, "Нет изменений", "Вы не изменили ни одного поля.")
+            QMessageBox.about(self, "Нет изменений", "Вы не изменили ни одного поля.")
             return
 
         try:
@@ -111,7 +111,7 @@ class ProfileWindow(QDialog):
             response = requests.put(url, headers=headers, json=data)
 
             if response.status_code == 200:
-                QMessageBox.information(self, "Успех", "Обновление профиля прошло успешно!")
+                QMessageBox.about(self, "Успех", "Обновление профиля прошло успешно!")
                 self.accept()
             else:
                 logger.error(f"Error while profile updated: {response.text}")

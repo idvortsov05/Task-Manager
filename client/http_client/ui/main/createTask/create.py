@@ -56,7 +56,7 @@ class CreateTaskWindow(QDialog):
     def load_developers(self):
         try:
             url = config["URLS"]["get_users"]
-            response = requests.get(url,headers=self.headers,params={"role": "developer"})
+            response = requests.get(url,headers=self.headers)
             response.raise_for_status()
             developers = response.json()
 
@@ -104,7 +104,7 @@ class CreateTaskWindow(QDialog):
             response = requests.post(url,headers=self.headers,json=task_data)
             response.raise_for_status()
 
-            QMessageBox.information(self, "Успех", "Задача успешно создана")
+            QMessageBox.about(self, "Успех", "Задача успешно создана")
             self.accept()
 
         except Exception as e:

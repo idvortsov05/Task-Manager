@@ -91,7 +91,7 @@ class ProjectWindow(QDialog):
             )
             response.raise_for_status()
 
-            QMessageBox.information(self, "Успех", "Проект успешно создан")
+            QMessageBox.about(self, "Успех", "Проект успешно создан")
             self.accept()  # Закрываем окно с результатом QDialog.Accepted
 
         except requests.exceptions.RequestException as e:

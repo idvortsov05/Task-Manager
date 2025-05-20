@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
-    <height>801</height>
+    <width>660</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>660</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>660</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Задачи</string>
@@ -103,7 +115,7 @@
     <rect>
      <x>20</x>
      <y>0</y>
-     <width>281</width>
+     <width>491</width>
      <height>31</height>
     </rect>
    </property>

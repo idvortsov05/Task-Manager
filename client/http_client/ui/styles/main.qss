@@ -69,14 +69,16 @@ QPushButton#pushButton_exit:hover {
 QPushButton#pushButton_tasks,
 QPushButton#pushButton_profile,
 QPushButton#pushButton_create_project,
-QPushButton#pushButton_delete_project {
+QPushButton#pushButton_delete_project,
+QPushButton#pushButton_create_report {
     background-color: #607D8B;
 }
 
 QPushButton#pushButton_tasks:hover,
 QPushButton#pushButton_profile:hover,
-QPushButton#pushButton_create_project:hover
-QPushButton#pushButton_delete_project:hover {
+QPushButton#pushButton_create_project:hover,
+QPushButton#pushButton_delete_project:hover,
+QPushButton#pushButton_create_report:hover {
     background-color: #455A64;
 }
 

@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import Mock, patch
 from sqlalchemy.orm import Session
 

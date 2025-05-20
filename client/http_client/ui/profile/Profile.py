@@ -14,7 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(398, 338)
+        Form.resize(350, 330)
+        Form.setMinimumSize(QtCore.QSize(350, 330))
+        Form.setMaximumSize(QtCore.QSize(350, 330))
         self.pushButton_exit = QtWidgets.QPushButton(Form)
         self.pushButton_exit.setGeometry(QtCore.QRect(20, 20, 101, 31))
         self.pushButton_exit.setStyleSheet("")

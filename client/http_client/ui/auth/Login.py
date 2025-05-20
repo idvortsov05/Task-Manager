@@ -14,7 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_login_window(object):
     def setupUi(self, login_window):
         login_window.setObjectName("login_window")
-        login_window.resize(323, 275)
+        login_window.resize(300, 275)
+        login_window.setMinimumSize(QtCore.QSize(300, 275))
+        login_window.setMaximumSize(QtCore.QSize(300, 275))
         self.label_login = QtWidgets.QLabel(login_window)
         self.label_login.setGeometry(QtCore.QRect(0, 50, 67, 21))
         font = QtGui.QFont()

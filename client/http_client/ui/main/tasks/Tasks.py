@@ -14,7 +14,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TasksWidget(object):
     def setupUi(self, TasksWidget):
         TasksWidget.setObjectName("TasksWidget")
-        TasksWidget.resize(703, 801)
+        TasksWidget.resize(660, 800)
+        TasksWidget.setMinimumSize(QtCore.QSize(660, 800))
+        TasksWidget.setMaximumSize(QtCore.QSize(660, 800))
         self.horizontalLayoutWidget = QtWidgets.QWidget(TasksWidget)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 40, 621, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -49,7 +51,7 @@ class Ui_TasksWidget(object):
         self.tableView_tasks_history.setGeometry(QtCore.QRect(0, 40, 611, 301))
         self.tableView_tasks_history.setObjectName("tableView_tasks_history")
         self.label_current_project = QtWidgets.QLabel(TasksWidget)
-        self.label_current_project.setGeometry(QtCore.QRect(20, 0, 281, 31))
+        self.label_current_project.setGeometry(QtCore.QRect(20, 0, 491, 31))
         self.label_current_project.setObjectName("label_current_project")
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(TasksWidget)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(10, 329, 621, 41))
