@@ -10,6 +10,8 @@ def train():
 
     assert df["priority"].between(0, 1).all(), "Priority must be in [0, 1] range"
 
+    df["full_text"] = df["task_title"].fillna('') + ". " + df["task_description"].fillna('')
+
     model = Pipeline([
         ('tfidf', TfidfVectorizer()),
         ('regressor', GradientBoostingRegressor(
@@ -18,7 +20,7 @@ def train():
         ))
     ])
 
-    model.fit(df["description"], df["priority"])
+    model.fit(df["full_text"], df["priority"])
     joblib.dump(model, "models/task_priority_model.pkl")
 
 
