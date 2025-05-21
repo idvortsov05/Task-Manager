@@ -3,8 +3,8 @@ from client.http_client.logger.logger_client import get_logger
 
 from client.http_client.ui.profile.ProfileWindow import ProfileWindow
 from client.http_client.ui.main.tasks.TasksWindow import TasksWindow
-from client.http_client.ui.main.Task import TaskWidget
-from client.http_client.ui.main.createTask.create import CreateTaskWindow
+from client.http_client.ui.main.TaskWindow import TaskWidget
+from client.http_client.ui.main.createTask.createTaskWidget import CreateTaskWindow
 from client.http_client.ui.main.ProjectWidget import ProjectWindow
 from client.http_client.ui.reports.report_generator import generate_pdf_report
 
@@ -501,19 +501,15 @@ class MainWindow(QMainWindow):
             return
 
         try:
-            # Получаем данные о проекте
             url_project = config["URLS"]["get_project_by_id"].format(project_id=self.project_id)
             project = requests.get(url_project, headers=self.headers).json()
 
-            # Получаем руководителя проекта
             url_user = config["URLS"]["get_user_by_id"].format(user_id=project["team_lead_id"])
             team_lead = requests.get(url_user, headers=self.headers).json()
 
-            # Получаем задачи проекта
             url_tasks = config["URLS"]["get_tasks"]
             tasks = requests.get(url_tasks, headers=self.headers, params={"project_id": self.project_id}).json()
 
-            # Выбор пути для сохранения отчёта
             directory = QFileDialog.getExistingDirectory(self, "Выберите папку для сохранения отчёта")
             if directory:
                 safe_name = project['name'].replace(" ", "_")

@@ -30,17 +30,17 @@ class CreateTaskWindow(QDialog):
         self.pushButton_open_calendar.clicked.connect(self.toggle_calendar)
         self.pushButton_create_task.clicked.connect(self.create_task)
         self.calendarWidget_select_date.clicked.connect(self.set_date_from_calendar)
+        logger.debug("CreateTask window signals loaded")
 
         self.init_ui()
-        self.load_developers()
-
-        self.lineEdit_title.setPlaceholderText("Введите название задачи")
-        self.lineEdit_description.setPlaceholderText("Введите описание задачи")
+        self.load_users()
 
     def init_ui(self):
         self.calendarWidget_select_date.setVisible(False)
         self.label_info.setText(f"Создание задачи в проекте {self.project_name}")
         self.label_status.setText(f"Статус добавляемой задачи: {self.get_status_text(self.status)}")
+        self.lineEdit_title.setPlaceholderText("Введите название задачи")
+        self.lineEdit_description.setPlaceholderText("Введите описание задачи")
         self.dateTimeEdit.setDateTime(QtCore.QDateTime.currentDateTime().addDays(1))
         self.calendarWidget_select_date.setSelectedDate(QtCore.QDate.currentDate())
 
@@ -53,7 +53,7 @@ class CreateTaskWindow(QDialog):
         self.dateTimeEdit.setDateTime(QtCore.QDateTime(qdate, current_time))
         self.calendarWidget_select_date.setVisible(False)
 
-    def load_developers(self):
+    def load_users(self):
         try:
             url = config["URLS"]["get_users"]
             response = requests.get(url,headers=self.headers)

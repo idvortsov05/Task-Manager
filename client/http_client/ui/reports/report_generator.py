@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import os
 import datetime
+import tempfile
 
 current_dir = os.path.dirname(__file__)
 font_dir = os.path.join(current_dir, "fonts")
@@ -118,7 +119,9 @@ def generate_pdf_report(project, tasks, team_lead, filename, icon_path):
     fig, ax = plt.subplots()
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors_list)
     ax.axis('equal')
-    chart_path = os.path.join("/tmp", "status_chart.png")
+
+    temp_dir = tempfile.gettempdir()
+    chart_path = os.path.join(temp_dir, "status_chart.png")
     plt.savefig(chart_path)
     plt.close()
 

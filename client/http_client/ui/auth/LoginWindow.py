@@ -14,8 +14,6 @@ LOGGER_CONFIG_PATH = config["logger"]["LOGGER_CONFIG_PATH"]
 logger = get_logger("client", LOGGER_CONFIG_PATH)
 
 icon_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'images', 'icon.png'))
-print("ICON PATH:", icon_path)
-print("Файл существует:", os.path.exists(icon_path))
 
 class LoginWindow(QDialog):
     def __init__(self):

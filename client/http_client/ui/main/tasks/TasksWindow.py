@@ -25,7 +25,7 @@ class TasksWindow(QDialog):
 
         uic.loadUi('client/http_client/ui/main/tasks/Tasks.ui', self)
 
-        with open('client/http_client/ui/styles/tasks.qss', 'r') as f:
+        with open('client/http_client/ui/styles/tasks.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("Tasks window styles loaded")
 

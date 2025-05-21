@@ -184,7 +184,7 @@
        <widget class="QLineEdit" name="lineEdit_find_by_tasks">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>170</x>
           <y>40</y>
           <width>171</width>
           <height>21</height>
@@ -207,9 +207,9 @@
        <widget class="QLabel" name="label_project_description">
         <property name="geometry">
          <rect>
-          <x>360</x>
+          <x>370</x>
           <y>10</y>
-          <width>631</width>
+          <width>621</width>
           <height>101</height>
          </rect>
         </property>
