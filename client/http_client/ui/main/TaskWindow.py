@@ -37,15 +37,19 @@ class TaskWidget(QDialog):
     def get_priority_text(self, priority_value):
         try:
             priority = float(priority_value)
-            if priority <= 0.35:
-                return "низкий 🟢", "green"
-            elif 0.35 < priority <= 0.75:
-                return "средний 🟡", "orange"
-            elif 0.75 < priority <= 0.99:
-                return "высокий 🔴", "red"
-            return "не определён", "gray"
+            if priority <= 0.20:
+                return "очень низкий 🟢", "#90ee90"
+            elif 0.21 <= priority <= 0.35:
+                return "низкий 🟢", "#008000"
+            elif 0.36 <= priority <= 0.55:
+                return "средний 🟡", "#cccc00"
+            elif 0.56 <= priority <= 0.75:
+                return "высокий 🔴", "#ff6666"
+            elif 0.76 < priority <= 0.99:
+                return "очень высокий 🔴", "#8b0000"
+            return "не определён", "#000000"
         except:
-            return "не определён", "gray"
+            return "не определён", "#000000"
 
     def format_datetime(self, datetime_str):
         try:

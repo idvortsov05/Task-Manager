@@ -371,12 +371,16 @@ class MainWindow(QMainWindow):
     def get_priority_text(self, priority_value):
         try:
             priority = float(priority_value)
-            if priority <= 0.35:
+            if priority <= 0.20:
+                return  "очень низкий 🟢"
+            elif 0.21 <= priority <= 0.35:
                 return "низкий 🟢"
-            elif 0.35 < priority <= 0.75:
+            elif 0.36 <= priority <= 0.55:
                 return "средний 🟡"
-            elif 0.75 < priority <= 0.99:
+            elif 0.56 <= priority <= 0.75:
                 return "высокий 🔴"
+            elif 0.76 < priority <= 0.99:
+                return "очень высокий 🔴"
             return "не определён"
         except:
             return "не определён"
