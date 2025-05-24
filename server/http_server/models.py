@@ -34,7 +34,7 @@ class Project(Base):
     status = Column(String(20), nullable=False)
     team_lead_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    tasks = relationship("Task", back_populates="project")
+    tasks = relationship("Task", back_populates="project", cascade="all, delete-orphan")
     team_lead = relationship("User")
 
     __table_args__ = (CheckConstraint("status IN ('open', 'active', 'completed')", name='check_project_status'),)
