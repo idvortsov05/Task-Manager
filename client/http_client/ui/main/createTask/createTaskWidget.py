@@ -23,7 +23,7 @@ class CreateTaskWindow(QDialog):
         uic.loadUi('client/http_client/ui/main/createTask/createTask.ui', self)
         logger.debug("CreateTask window ui was loaded")
 
-        with open('client/http_client/ui/styles/createTask.qss', 'r') as f:
+        with open('client/http_client/ui/styles/createTask.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("CreateTask window styles loaded")
 

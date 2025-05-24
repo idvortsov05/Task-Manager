@@ -25,7 +25,7 @@ class ProfileWindow(QDialog):
         uic.loadUi('client/http_client/ui/profile/Profile.ui', self)
         logger.debug("Profile window ui was loaded")
 
-        with open('client/http_client/ui/styles/profile.qss', 'r') as f:
+        with open('client/http_client/ui/styles/profile.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("Profile window styles loaded")
 

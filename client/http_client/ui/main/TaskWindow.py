@@ -18,7 +18,7 @@ class TaskWidget(QDialog):
 
         uic.loadUi('client/http_client/ui/main/TaskWidget.ui', self)
 
-        with open('client/http_client/ui/styles/task.qss', 'r') as f:
+        with open('client/http_client/ui/styles/task.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
 
         self.setup_task_info()

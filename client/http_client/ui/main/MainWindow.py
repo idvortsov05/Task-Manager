@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         uic.loadUi('client/http_client/ui/main/Main.ui', self)
         logger.debug("Main window ui was loaded")
 
-        with open('client/http_client/ui/styles/main.qss', 'r') as f:
+        with open('client/http_client/ui/styles/main.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("Main window styles loaded")
 

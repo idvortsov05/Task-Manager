@@ -28,7 +28,7 @@ class ProjectWindow(QDialog):
         uic.loadUi('client/http_client/ui/main/Project.ui', self)
         logger.debug("CreateProject window ui was loaded")
 
-        with open('client/http_client/ui/styles/project.qss', 'r') as f:
+        with open('client/http_client/ui/styles/project.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("CreateProject window styles loaded")
 

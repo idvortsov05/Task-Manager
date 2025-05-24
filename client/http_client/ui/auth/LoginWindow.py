@@ -23,7 +23,7 @@ class LoginWindow(QDialog):
         uic.loadUi('client/http_client/ui/auth/Login.ui', self)
         logger.debug("Login window ui was loaded")
 
-        with open('client/http_client/ui/styles/auth.qss', 'r') as f:
+        with open('client/http_client/ui/styles/auth.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("Login window styles loaded")
 

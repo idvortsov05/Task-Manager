@@ -24,7 +24,7 @@ class RegisterWindow(QDialog):
         uic.loadUi('client/http_client/ui/auth/Register.ui', self)
         logger.debug("Register window ui was loaded")
 
-        with open('client/http_client/ui/styles/auth.qss', 'r') as f:
+        with open('client/http_client/ui/styles/auth.qss', 'r', encoding='utf-8') as f:
             self.setStyleSheet(f.read())
             logger.debug("Register window styles loaded")
 
