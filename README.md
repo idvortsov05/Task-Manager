@@ -48,8 +48,9 @@ Task-Manager/
 │       ├── models/                 # Сгенерированная модель
 │       ├── prepare_data.py         # Очистка данных
 │       ├── sentence_embedder.py    # Кастомный трансформер для ML-пайплайна         
-│       └── train_model.py          # Обучение модели      
-├───────http_server/                # FastAPI сервер
+│       └── train_model.py          # Обучение модели
+|     
+│   ├── http_server/                # FastAPI сервер
 │       ├── config/                 # Конфигурация
 │       ├── logger/                 # Логирование
 │       ├── auth.py                 # Авторизация
@@ -60,6 +61,7 @@ Task-Manager/
 │       ├── notifications.py        # Уведомления
 │       ├── routers.py              # Сетевые запросы
 │       └── schemas.py              # Pydantic-схемы
+|
 └── README.md                       # Документация
 ```
 
