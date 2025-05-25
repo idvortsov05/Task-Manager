@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.pipeline import Pipeline
@@ -27,6 +29,7 @@ def train():
     mae = mean_absolute_error(df["priority"], preds)
     print(f"MAE (Mean Absolute Error): {mae:.4f}")
 
+    os.makedirs("server/ml/models", exist_ok=True)
     joblib.dump(model, "server/ml/models/task_priority_model.pkl")
 
 
