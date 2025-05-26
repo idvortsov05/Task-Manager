@@ -85,7 +85,7 @@ class RegisterWindow(QDialog):
             self.pushButton_register.setEnabled(False)
 
             url = config["URLS"]["register"]
-            logger.debug("Sending register request: {url}")
+            logger.debug(f"Sending register request: {url}")
 
             response = requests.post(url, json=data)
 
