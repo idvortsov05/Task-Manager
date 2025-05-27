@@ -375,11 +375,11 @@ class MainWindow(QMainWindow):
                 return  "очень низкий 🟢"
             elif 0.21 <= priority <= 0.35:
                 return "низкий 🟢"
-            elif 0.36 <= priority <= 0.55:
+            elif 0.35 < priority <= 0.55:
                 return "средний 🟡"
-            elif 0.56 <= priority <= 0.75:
+            elif 0.55 < priority <= 0.75:
                 return "высокий 🔴"
-            elif 0.76 < priority <= 0.99:
+            elif 0.75 < priority <= 0.99:
                 return "очень высокий 🔴"
             return "не определён"
         except:
